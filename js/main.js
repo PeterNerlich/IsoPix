@@ -18,6 +18,8 @@ var input = {
 	mouse: {
 		left: false,
 		right: false,
+		shift: false,
+		alt: false,
 		layerX: null,
 		layerY: null
 	},
@@ -46,8 +48,12 @@ function update() {
 		canvas.editor.ctx.fillText('▲ '+triangle.x+':'+triangle.y, e.layerX+3, e.layerY+15);
 		canvas.editor.ctx.fillText('temp: '+triangle.temp, e.layerX+3, e.layerY+35);*/
 	if (input.mouse.left) {
-		canvas.editor.ctx.fillStyle = colorBuffer;
-		canvas.image.ctx.fillRect(triangle.x,triangle.y,1,1);
+		if (input.mouse.shiftKey) {
+			canvas.image.ctx.clearRect(triangle.x,triangle.y,1,1);
+		} else {
+			canvas.editor.ctx.fillStyle = colorBuffer;
+			canvas.image.ctx.fillRect(triangle.x,triangle.y,1,1);
+		}
 	} else if (input.mouse.right) {
 		canvas.image.ctx.fillStyle = 'rgba('+px.r+','+px.g+','+px.b+','+px.a+')';
 	}
@@ -112,9 +118,9 @@ function updateCells(from,to) {
 }
 var key = null;
 window.onload = function() {
-	canvas.image.e = document.getElementById('image');
+	canvas.image.e = document.getElementById('c_image');
 	canvas.image.ctx = canvas.image.e.getContext('2d');
-	canvas.editor.e = document.getElementById('editor');
+	canvas.editor.e = document.getElementById('c_editor');
 	canvas.editor.ctx = canvas.editor.e.getContext('2d');
 
 	img = new Image();
@@ -133,25 +139,32 @@ window.onload = function() {
 
 	canvas.editor.e.addEventListener('mousemove', function(e){
 		e.preventDefault();
-		input.mouse.layerX = e.layerX;
-		input.mouse.layerY = e.layerY;
+		input.mouse.layerX = e.offsetX;
+		input.mouse.layerY = e.offsetY;
+		input.mouse.shiftKey = e.shiftKey;
+		input.mouse.altKey = e.altKey;
 		update();
 	}, false);
 	canvas.editor.e.addEventListener('mousedown', function(e){
 		e.preventDefault();
 		input.mouse.layerX = e.layerX;
 		input.mouse.layerY = e.layerY;
+		input.mouse.shiftKey = e.shiftKey;
+		input.mouse.altKey = e.altKey;
 		if (e.button === 0 || e.button === 1) {
 			input.mouse.left = true;
 		} else if (e.button === 2) {
 			input.mouse.right = true;
 		}
+		key = e;
 		update();
 	}, false);
 	canvas.editor.e.addEventListener('mouseup', function(e){
 		e.preventDefault();
 		input.mouse.layerX = e.layerX;
 		input.mouse.layerY = e.layerY;
+		input.mouse.shiftKey = e.shiftKey;
+		input.mouse.altKey = e.altKey;
 		if (e.button === 0 || e.button === 1) {
 			input.mouse.left = false;
 		} else if (e.button === 2) {
@@ -171,6 +184,8 @@ window.onload = function() {
 		input.mouse.layerY = null;
 		input.mouse.left = false;
 		input.mouse.right = false;
+		input.mouse.shiftKey = false;
+		input.mouse.altKey = false;
 		update();
 	}, false);
 };
