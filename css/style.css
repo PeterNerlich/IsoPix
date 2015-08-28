@@ -10,20 +10,67 @@ html, body {
 	padding: 0;
 }
 
+canvas#c_image {
+	display: none;
+}
+
 #topbar {
 	position: fixed;
 	width: 100%;
-	height: 48px;
+	max-height: calc((( 0 *100%) + 32px) - ( 0 *32px));
 	overflow: hidden;
 	z-index: 10000;
 	box-shadow: 0px 0px 10px rgba(0,0,0,1);
 	background: -webkit-linear-gradient(top, #444, #222);
+	transition: max-height 200ms;
+}
+#topbar .menu li {
+	float: left;
+	height: 32px;
+	list-style: none;
+	margin-left: 3px;
+	padding: 0 6px;
+}
+#topbar .menu li:hover, #topbar .menu li.active {
+	background: -webkit-linear-gradient(top, #555, #333);
+}
+#topbar p {
+	line-height: 32px;
+	color: #999;
+	font-family: sans-serif 'Ubuntu' 'Ubuntu Light';
+	font-size: 16px;
+}
+#topbar .menu {
+	height: 32px;
+}
+#topbar .menu li:hover p, #topbar .menu li.active p {
+	color: #ccc;
+}
+#topbar .submenu {
+	padding: 0px 20px 20px 10px;
+	-webkit-column-width: 300px;
+	-webkit-column-gap: 32px;
+}
+#topbar .submenu li {
+	padding: 6px;
+	margin: 6px;
+	border-radius: 5px;
+	background-color: rgba(100,100,100,0.1);
+}
+#topbar .submenu li:hover {
+	background-color: rgba(100,100,100,0.5);
+}
+#topbar .submenu li p {
+	line-height: 20px;
+}
+#topbar .submenu li:hover p {
+	color: #ccc;
 }
 
 #content {
 	position: fixed;
 	left: 0;
-	top: 48px;
+	top: 32px;
 	bottom: 0;
 	right: 0;
 	overflow: hidden;
@@ -33,6 +80,9 @@ html, body {
     height: 100%;
     width: 200px;
     background-color: #585;
+	background-color: #333;
+	/* background: -webkit-linear-gradient(right, #2a2a2a 0px, #383838 16px); */
+	box-shadow: 0px 0px 10px rgba(0,0,0,1);
     float: left;
 }
 
