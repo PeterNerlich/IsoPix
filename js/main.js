@@ -9,9 +9,9 @@ var canvas = {
 		ctx: null
 	}
 };
-var size = 20;
+var size = 9.237604307034013;
 var mode = 'horizontal';
-var grid = false;
+var grid = true;
 
 var sqrt3 = Math.sqrt(3);
 var input = {

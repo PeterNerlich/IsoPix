@@ -9,7 +9,53 @@
 </head>
 <body>
 
-<div id="topbar"></div>
+<div id="topbar">
+	<ul class="menu">
+		<li><p>File</p></li>
+		<li><p>Edit</p></li>
+		<li><p>View</p></li>
+		<li><p>Tools</p></li>
+		<li><p>Help</p></li>
+	</ul>
+	<div class="submenu">
+		<div data-menu="file">
+			<ul>
+				<li><p>New*</p></li>
+				<li><p>Open</p></li>
+				<li><p>Save</p></li>
+				<li><p>Bake</p></li>
+			</ul>
+		</div>
+		<div data-menu="edit">
+			<ul>
+				<li><p>Undo</p></li>
+				<li><p>Redo</p></li>
+				<li><p>Shortcuts</p></li>
+				<li><p>Resize Canvas</p></li>
+				<li><p>Triangle Orientation</p></li>
+			</ul>
+		</div>
+		<div data-menu="view">
+			<ul>
+				<li><p>Zoom in</p></li>
+				<li><p>Zoom out</p></li>
+				<li><p>Zoom fit</p></li>
+				<li><p>Show Grid</p></li>
+			</ul>
+		</div>
+		<div data-menu="tools">
+			<ul>
+				<li><p>[ ] Selection to show tools?</p></li>
+			</ul>
+		</div>
+		<div data-menu="help">
+			<ul>
+				<li><p>View on GitHub</p></li>
+				<li><p>About</p></li>
+			</ul>
+		</div>
+	</div>
+</div>
 <div id="content">
 	<div id="leftbar"></div>
 	<div id="editor">
