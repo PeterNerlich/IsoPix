@@ -133,9 +133,9 @@ function updateCells(from,to) {
 var key = null;
 window.onload = function() {
 	// define canvas'sss
-	canvas.image.e = $('#c_image');
+	canvas.image.e = $('#c_image')[0];
 	canvas.image.ctx = canvas.image.e.getContext('2d');
-	canvas.editor.e = $('#c_editor');
+	canvas.editor.e = $('#c_editor')[0];
 	canvas.editor.ctx = canvas.editor.e.getContext('2d');
 
 	// load image
@@ -450,3 +450,46 @@ function getTriangle(x,y,size) {
 		};
 	}
 }
+
+
+/******** MENU ********/
+
+// make sure DOM tree is fully populated
+$(window).ready(function(){
+	$(function () {
+		// attach event lstener
+		$('.menu [data-tab]').on('click', function (e) {
+			$(this)
+				// set others inactive
+				.siblings('[data-tab]')
+					.removeClass('active')
+				// hide others content
+				.siblings('[data-content]')
+					.removeClass('active');
+			if ($(this).hasClass('active')) {
+				$(this)
+					// set active
+					.removeClass('active')
+					// show content
+					.siblings('[data-content=' + $(this).data('tab') + ']')
+						.removeClass('active');
+				if ($(this).parent('#topbar').length !== 0) {
+					// shrink topbar
+					$(this).parent('#topbar').removeClass('extended');
+				}
+			} else {
+				$(this)
+					// set active
+					.addClass('active')
+					// show content
+					.siblings('[data-content=' + $(this).data('tab') + ']')
+						.addClass('active');
+				if ($(this).parent('#topbar').length !== 0) {
+					// extend topbar
+					$(this).parent('#topbar').addClass('extended');
+				}
+			}
+			e.preventDefault();
+		});
+	});
+});

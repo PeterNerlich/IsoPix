@@ -24,46 +24,51 @@ canvas#c_image {
 	background: -webkit-linear-gradient(top, #444, #222);
 	transition: max-height 200ms;
 }
-#topbar .menu li {
+#topbar.extended {
+	max-height: calc((( 1 *100%) + 32px) - ( 1 *32px));
+}
+#topbar .tab {
 	float: left;
 	height: 32px;
 	list-style: none;
 	margin-left: 3px;
 	padding: 0 6px;
-}
-#topbar .menu li:hover, #topbar .menu li.active {
-	background: -webkit-linear-gradient(top, #555, #333);
-}
-#topbar p {
 	line-height: 32px;
 	color: #999;
 	font-family: sans-serif 'Ubuntu' 'Ubuntu Light';
 	font-size: 16px;
 }
-#topbar .menu {
-	height: 32px;
-}
-#topbar .menu li:hover p, #topbar .menu li.active p {
+#topbar .tab:hover, #topbar .tab.active {
+	background: -webkit-linear-gradient(top, #555, #333);
 	color: #ccc;
 }
-#topbar .submenu {
+#topbar .content {
 	padding: 0px 20px 20px 10px;
 	-webkit-column-width: 300px;
 	-webkit-column-gap: 32px;
+	display: none;
+	clear: both;
+	overflow: hidden;
 }
-#topbar .submenu li {
-	padding: 6px;
+#topbar .content.active {
+	display: block;
+}
+#topbar .content li {
+	padding: 0px 6px;
 	margin: 6px;
 	border-radius: 5px;
 	background-color: rgba(100,100,100,0.1);
+	list-style: none;
 }
-#topbar .submenu li:hover {
+#topbar .content li:hover {
 	background-color: rgba(100,100,100,0.5);
 }
-#topbar .submenu li p {
-	line-height: 20px;
+#topbar .content li p {
+	font-family: sans-serif 'Ubuntu' 'Ubuntu Light';
+	line-height: 32px;
+	color: #999;
 }
-#topbar .submenu li:hover p {
+#topbar .content li:hover p {
 	color: #ccc;
 }
 
