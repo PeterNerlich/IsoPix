@@ -1,18 +1,22 @@
 var img, coord;
 var canvas = {
 	image: {
-		e: null,
-		ctx: null
+		// in background
+		e: null, // DOM element
+		ctx: null // context
 	},
 	editor: {
-		e: null,
-		ctx: null
+		// display as triangles
+		e: null, // DOM element
+		ctx: null // context
 	}
 };
 var size = 9.237604307034013;
+// triangle orientation
 var mode = 'horizontal';
 var grid = true;
 
+// store third root for faster calculation
 var sqrt3 = Math.sqrt(3);
 var input = {
 	mouse: {
@@ -28,6 +32,7 @@ var input = {
 var colorBuffer = '#000';
 
 function pick(x,y,ctx) {
+	// get color from position
 	var data = ctx.getImageData(x, y, 1, 1).data;
 	return {
 		r: data[0], g: data[1], b: data[2], a: data[3]
@@ -36,7 +41,7 @@ function pick(x,y,ctx) {
 
 function update() {
 	// inputs
-	var triangle = getTriangle(input.mouse.layerX,input.mouse.layerY,size);
+	var triangle = getTriangle(input.mouse.layerX,input.mouse.layerY,size); // get currently hovered triangle
 	if (input.mouse.layerX !== null && input.mouse.layerY !== null) {
 		var px = pick(triangle.x,triangle.y,canvas.image.ctx);
 	}
@@ -49,16 +54,20 @@ function update() {
 		canvas.editor.ctx.fillText('temp: '+triangle.temp, e.layerX+3, e.layerY+35);*/
 	if (input.mouse.left) {
 		if (input.mouse.shiftKey) {
+			// eraser with [LM] + [SHIFT]
 			canvas.image.ctx.clearRect(triangle.x,triangle.y,1,1);
 		} else {
+			// draw
 			canvas.editor.ctx.fillStyle = colorBuffer;
 			canvas.image.ctx.fillRect(triangle.x,triangle.y,1,1);
 		}
 	} else if (input.mouse.right) {
+		// use picked color
 		canvas.image.ctx.fillStyle = 'rgba('+px.r+','+px.g+','+px.b+','+px.a+')';
 	}
-	updateCells();
+	updateCells(); // exactly that
 	if (input.mouse.layerX !== null && input.mouse.layerY !== null) {
+		// invert color to highlight current triangle
 		drawShape(
 			canvas.editor.ctx,
 			getCoordinates(triangle.x,triangle.y,size,false),
@@ -68,6 +77,7 @@ function update() {
 }
 
 function updateCells(from,to) {
+	// only updating partly may malfunction
 	if (typeof from === 'undefined') {
 		from = [0,0];
 		to = [img.width-1,img.height-1];
@@ -78,9 +88,10 @@ function updateCells(from,to) {
 	if (typeof from !== 'object' || typeof to !== 'object') {
 		return false;
 	}
+	// increase to values, else it might be 0
 	to[0]++;
 	to[1]++;
-	//adjust sizes
+	//adjust canvas sizes
 	if (mode == 'vertical') {
 		canvas.editor.e.width = img.width*size*0.5 + 0.5*size;
 		canvas.editor.e.height = img.height*size*sqrt3*0.5;
@@ -91,11 +102,13 @@ function updateCells(from,to) {
 
 	//drawing
 	if (from == [0,0] && to == [img.width,img.height]) {
+		// if updating full image we can clear everything first
 		canvas.editor.ctx.clearRect(0,0,canvas.editor.e.width,canvas.editor.e.height);
 	}
 	for (var i = from[0]; i < to[0]; i++) {
 		for (var o = from[1]; o < to[1]; o++) {
 			var px = pick(i,o,canvas.image.ctx);
+			// use one single path to save resources
 			var path = new Path2D();
 			if (grid/* || i+1 == to[0] || o+1 == to[1]*/) {
 				drawShape(
@@ -112,33 +125,43 @@ function updateCells(from,to) {
 					path
 				);
 			}
+			// flush path to image
 			canvas.editor.ctx.fill(path);
 		}
 	}
 }
 var key = null;
 window.onload = function() {
+	// define canvas'sss
 	canvas.image.e = document.getElementById('c_image');
 	canvas.image.ctx = canvas.image.e.getContext('2d');
 	canvas.editor.e = document.getElementById('c_editor');
 	canvas.editor.ctx = canvas.editor.e.getContext('2d');
 
+	// load image
 	img = new Image();
 	img.src = 'img/Download.png';
 	img.onload = function() {
+		// adjust working canvas
 		canvas.image.e.width = img.width;
 		canvas.image.e.height = img.height;
+		// get canvas'sss contexts
 		canvas.image.ctx = canvas.image.e.getContext('2d');
 		canvas.editor.ctx = canvas.editor.e.getContext('2d');
+		// draw loaded image to working canvas
 		canvas.image.ctx.drawImage(img, 0, 0);
+		// loaded copy
 		img.style.display = 'none';
+		// force pixelation
 		canvas.image.ctx.imageSmoothingEnabled = false;
 		canvas.editor.ctx.imageSmoothingEnabled = false;
+		// draw as triangles to editor canvas
 		update();
 	};
 
 	canvas.editor.e.addEventListener('mousemove', function(e){
 		e.preventDefault();
+		// update inputs
 		input.mouse.layerX = e.offsetX;
 		input.mouse.layerY = e.offsetY;
 		input.mouse.shiftKey = e.shiftKey;
@@ -147,6 +170,7 @@ window.onload = function() {
 	}, false);
 	canvas.editor.e.addEventListener('mousedown', function(e){
 		e.preventDefault();
+		// update inputs
 		input.mouse.layerX = e.layerX;
 		input.mouse.layerY = e.layerY;
 		input.mouse.shiftKey = e.shiftKey;
@@ -157,10 +181,12 @@ window.onload = function() {
 			input.mouse.right = true;
 		}
 		key = e;
+		// change may have happened, redraw
 		update();
 	}, false);
 	canvas.editor.e.addEventListener('mouseup', function(e){
 		e.preventDefault();
+		// update inputs
 		input.mouse.layerX = e.layerX;
 		input.mouse.layerY = e.layerY;
 		input.mouse.shiftKey = e.shiftKey;
@@ -170,22 +196,26 @@ window.onload = function() {
 		} else if (e.button === 2) {
 			input.mouse.right = false;
 		}
+		// change may have happened, redraw
 		update();
 	}, false);
 	canvas.editor.e.addEventListener('contextmenu', function(e) {
 		if (e.button === 2) {
+			// NO CONTEXTMENU FOR YOU!!!
 			e.preventDefault();
 			return false;
 		}
 	}, false);
 	canvas.editor.e.addEventListener('mouseout', function(e){
 		e.preventDefault();
+		// update inputs
 		input.mouse.layerX = null;
 		input.mouse.layerY = null;
 		input.mouse.left = false;
 		input.mouse.right = false;
 		input.mouse.shiftKey = false;
 		input.mouse.altKey = false;
+		// change may have happened, redraw
 		update();
 	}, false);
 };
@@ -208,6 +238,7 @@ function drawShape(ctx,val,color,path) {
 		}
 		ctx.fill(path);
 	} else {
+		// if we only contribute to an existing path we don't need to draw it
 		path.moveTo(val[0].x, val[0].y);
 		for (var i = 1; i < val.length; i++) {
 			path.lineTo(val[i].x, val[i].y);
@@ -217,13 +248,20 @@ function drawShape(ctx,val,color,path) {
 
 function getCoordinates(x,y,size,overlap) {
 	if (x != Math.round(x) || y != Math.round(y)) {
+		// these are our triangle indexes, only natural numbers allowed!
 		return false;
 	}
 	if (typeof overlap === 'undefined') {
+		// I forgot what this meant...
 		overlap = false;
 	}
+	// Now prepare, this is pure math.
+	// No explaning. just skip it.
 	if (mode == 'vertical') {
+		// Seriously, skip it.
 		if ((x+y)%2 == 0) {
+			// You have to find a bug?
+			// Bad luck for you. Welcome to hell.
 			return [
 				{
 					x: 0.5*size + x*size/2,
@@ -337,6 +375,7 @@ function getCoordinates(x,y,size,overlap) {
 			}
 		}
 	}
+	// Wow, now I'm all dizzy.
 }
 
 function getTriangle(x,y,size) {
@@ -362,14 +401,15 @@ function getTriangle(x,y,size) {
 				if ((tempx+tempy)/2 < 0.5) {
 					iy--;
 				}
-				temp = ((tempx+tempy)/2 < 0.5) ? 'ober' : 'unter';
+				temp = ((tempx+tempy)/2 < 0.5) ? 'upper' : 'lower';
 			} else {
 				if ((1-tempx+tempy)/2 < 0.5) {
 					iy--;
 				}
-				temp = ((1-tempx+tempy)/2 < 0.5) ? 'ober' : 'unter';
+				temp = ((1-tempx+tempy)/2 < 0.5) ? 'upper' : 'lower';
 			}
 		}
+		// return index
 		return {
 			x: ix,
 			y: iy,
@@ -394,14 +434,15 @@ function getTriangle(x,y,size) {
 				if ((tempx+tempy)/2 > 0.5) {
 					ix--;
 				}
-				temp = ((tempx+tempy)/2 > 0.5) ? 'ober' : 'unter';
+				temp = ((tempx+tempy)/2 > 0.5) ? 'upper' : 'lower';
 			} else {
 				if ((1-tempx+tempy)/2 > 0.5) {
 					ix--;
 				}
-				temp = ((1-tempx+tempy)/2 > 0.5) ? 'ober' : 'unter';
+				temp = ((1-tempx+tempy)/2 > 0.5) ? 'upper' : 'lower';
 			}
 		}
+		// return index
 		return {
 			x: ix,
 			y: iy,
