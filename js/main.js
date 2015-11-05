@@ -133,9 +133,9 @@ function updateCells(from,to) {
 var key = null;
 window.onload = function() {
 	// define canvas'sss
-	canvas.image.e = document.getElementById('c_image');
+	canvas.image.e = $('#c_image');
 	canvas.image.ctx = canvas.image.e.getContext('2d');
-	canvas.editor.e = document.getElementById('c_editor');
+	canvas.editor.e = $('#c_editor');
 	canvas.editor.ctx = canvas.editor.e.getContext('2d');
 
 	// load image
