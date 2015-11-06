@@ -23,27 +23,27 @@
 	<a href="#" data-tab="help" class="tab">Help</a>
 	<div data-content="file" class="content">
 		<ul>
-			<li><p>New*</p></li>
-			<li><p>Open</p></li>
-			<li><p>Save</p></li>
-			<li><p>Bake</p></li>
+			<li data-exec="file-new"><p>New*</p></li>
+			<li data-exec="file-open"><p>Open</p></li>
+			<li data-exec="file-save"><p>Save</p></li>
+			<li data-exec="file-bake"><p>Bake</p></li>
 		</ul>
 	</div>
 	<div data-content="edit" class="content">
 		<ul>
-			<li><p>Undo</p></li>
-			<li><p>Redo</p></li>
-			<li><p>Shortcuts</p></li>
-			<li><p>Resize Canvas</p></li>
-			<li><p>Triangle Orientation</p></li>
+			<li data-exec="edit-undo"><p>Undo</p></li>
+			<li data-exec="edit-redo"><p>Redo</p></li>
+			<li data-exec="edit-shortcuts"><p>Shortcuts</p></li>
+			<li data-exec="edit-resize"><p>Resize Canvas</p></li>
+			<li data-exec="edit-triangleorientation"><p>Triangle Orientation</p></li>
 		</ul>
 	</div>
 	<div data-content="view" class="content">
 		<ul>
-			<li><p>Zoom in</p></li>
-			<li><p>Zoom out</p></li>
-			<li><p>Zoom fit</p></li>
-			<li><p>Show Grid</p></li>
+			<li data-exec="view-zoomin"><p>Zoom in</p></li>
+			<li data-exec="view-zoomout"><p>Zoom out</p></li>
+			<li data-exec="view-zoomfit"><p>Zoom fit</p></li>
+			<li data-exec="view-showgrid"><p>Show Grid</p></li>
 		</ul>
 	</div>
 	<div data-content="tools" class="content">
@@ -58,7 +58,7 @@
 		</ul>
 	</div>
 </header>
-<section></section> id="content">
+<section id="content">
 	<div id="leftbar"></div>
 	<div id="editor">
 		<canvas id="c_editor"></canvas>
