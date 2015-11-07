@@ -57,7 +57,7 @@ function update() {
 			// eraser with [LM] + [SHIFT]
 			canvas.image.ctx.clearRect(triangle.x,triangle.y,1,1);
 		} else {
-			// 
+			// draw
 			canvas.editor.ctx.fillStyle = colorBuffer;
 			canvas.image.ctx.fillRect(triangle.x,triangle.y,1,1);
 		}

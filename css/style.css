@@ -35,8 +35,9 @@ canvas#c_image {
 	padding: 0 6px;
 	line-height: 32px;
 	color: #999;
-	font-family: sans-serif 'Ubuntu' 'Ubuntu Light';
+	font-family: "Ubuntu", -apple-system, "Oxygen", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
 	font-size: 16px;
+	text-decoration: none;
 }
 #topbar .tab:hover, #topbar .tab.active {
 	background: -webkit-linear-gradient(top, #555, #333);
@@ -63,8 +64,11 @@ canvas#c_image {
 #topbar .content li:hover {
 	background-color: rgba(100,100,100,0.5);
 }
+#topbar .content a {
+	text-decoration: none;
+}
 #topbar .content li p {
-	font-family: sans-serif 'Ubuntu' 'Ubuntu Light';
+	font-family: "Ubuntu", -apple-system, "Oxygen", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
 	line-height: 32px;
 	color: #999;
 }
