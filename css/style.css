@@ -35,7 +35,7 @@ canvas#c_image {
 	padding: 0 6px;
 	line-height: 32px;
 	color: #999;
-	font-family: "Ubuntu", -apple-system, "Oxygen", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+	font-family: "Ubuntu", -apple-system, "Oxygen", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
 	font-size: 16px;
 	text-decoration: none;
 }
@@ -68,7 +68,7 @@ canvas#c_image {
 	text-decoration: none;
 }
 #topbar .content li p {
-	font-family: "Ubuntu", -apple-system, "Oxygen", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+	font-family: "Ubuntu", -apple-system, "Oxygen", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
 	line-height: 32px;
 	color: #999;
 }
