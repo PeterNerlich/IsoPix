@@ -39,7 +39,7 @@ guicmd = {
 		console.log('guicmd.file_save()');
 		var d = document.createElement('a');
 		d.href = canvas.image.e.toDataURL();
-		d.download = 'img.png';
+		d.download = 'IsoPix-Project.png';
 		d.click();
 		d.remove();
 	},
