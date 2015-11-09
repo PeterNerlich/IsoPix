@@ -41,6 +41,7 @@ guicmd = {
 		d.href = canvas.image.e.toDataURL();
 		d.download = 'img.png';
 		d.click();
+		d.remove();
 	},
 	file_bake: function(){
 		console.log('guicmd.file_bake()');
