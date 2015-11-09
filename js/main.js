@@ -31,6 +31,30 @@ var input = {
 };
 var colorBuffer = '#000';
 
+guicmd = {
+	file_open: function(){
+		console.log('guicmd.file_open()');
+	},
+	file_save: function(){
+		console.log('guicmd.file_save()');
+		var d = document.createElement('a');
+		d.href = canvas.image.e.toDataURL();
+		d.download = 'img.png';
+		d.click();
+	},
+	file_bake: function(){
+		console.log('guicmd.file_bake()');
+	}
+};
+
+function guido(cmd) {
+	console.log('guido("'+cmd+'"")');
+	if (typeof guicmd[cmd.replace(/-/g,'_')] === 'undefined') {
+		return false;
+	}
+	return guicmd[cmd.replace(/-/g,'_')]();
+}
+
 function pick(x,y,ctx) {
 	// get color from position
 	var data = ctx.getImageData(x, y, 1, 1).data;
@@ -490,6 +514,10 @@ $(window).ready(function(){
 				}
 			}
 			e.preventDefault();
+		});
+		$('[data-exec]').on('click', function (e) {
+			console.log('[data-exec="'+$(this).attr('data-exec')+'"].click()');
+			guido($(this).attr('data-exec'));
 		});
 	});
 });
