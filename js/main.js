@@ -33,10 +33,23 @@ var colorBuffer = '#000';
 
 guicmd = {
 	file_open: function(){
-		console.log('guicmd.file_open()');
+		var o = document.createElement('input');
+		o.type = 'file';
+		$(o).on('change', function(e){
+			if (e.target.files[0].type.slice(0,6) === 'image/') {
+				var reader = new FileReader();
+				$(reader).on('load', function(e){
+					img.src = e.target.result;
+				});
+				reader.readAsDataURL(e.target.files[0]);
+			} else {
+				alert('File not supported.');
+			}
+		});
+		o.click();
+		o.remove();
 	},
 	file_save: function(){
-		console.log('guicmd.file_save()');
 		var d = document.createElement('a');
 		d.href = canvas.image.e.toDataURL();
 		d.download = 'IsoPix-Project.png';
@@ -49,7 +62,6 @@ guicmd = {
 };
 
 function guido(cmd) {
-	console.log('guido("'+cmd+'"")');
 	if (typeof guicmd[cmd.replace(/-/g,'_')] === 'undefined') {
 		return false;
 	}
@@ -517,7 +529,6 @@ $(window).ready(function(){
 			e.preventDefault();
 		});
 		$('[data-exec]').on('click', function (e) {
-			console.log('[data-exec="'+$(this).attr('data-exec')+'"].click()');
 			guido($(this).attr('data-exec'));
 		});
 	});
