@@ -48,6 +48,7 @@ guicmd = {
 		});
 		o.click();
 		o.remove();
+		guicmd.closemenu();
 	},
 	file_save: function(){
 		var d = document.createElement('a');
@@ -55,10 +56,12 @@ guicmd = {
 		d.download = 'IsoPix-Project.png';
 		d.click();
 		d.remove();
+		guicmd.closemenu();
 	},
 	file_bake: function(){
 		console.log('guicmd.file_bake()');
-	}
+	},
+	closemenu: function(){return false;}
 };
 
 function guido(cmd) {
@@ -531,5 +534,9 @@ $(window).ready(function(){
 		$('[data-exec]').on('click', function (e) {
 			guido($(this).attr('data-exec'));
 		});
+		guicmd.closemenu = function() {
+			$('.menu [data-tab], .menu [data-content]').removeClass('active');
+			return true;
+		};
 	});
 });
