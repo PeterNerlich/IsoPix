@@ -81,9 +81,22 @@ function pick(x,y,ctx) {
 
 function update() {
 	// inputs
-	var triangle = getTriangle(input.mouse.layerX,input.mouse.layerY,size); // get currently hovered triangle
 	if (input.mouse.layerX !== null && input.mouse.layerY !== null) {
+		var triangle = getTriangle(input.mouse.layerX,input.mouse.layerY,size); // get currently hovered triangle
 		var px = pick(triangle.x,triangle.y,canvas.image.ctx);
+		if (input.mouse.left) {
+			if (input.mouse.shiftKey) {
+				// eraser with [LM] + [SHIFT]
+				canvas.image.ctx.clearRect(triangle.x,triangle.y,1,1);
+			} else {
+				// draw
+				canvas.editor.ctx.fillStyle = colorBuffer;
+				canvas.image.ctx.fillRect(triangle.x,triangle.y,1,1);
+			}
+		} else if (input.mouse.right) {
+			// use picked color
+			canvas.image.ctx.fillStyle = 'rgba('+px.r+','+px.g+','+px.b+','+px.a+')';
+		}
 	}
 		/*canvas.editor.ctx.fillStyle = 'rgba(100,100,100,0.8)';
 		canvas.editor.ctx.fillRect(e.layerX-22,e.layerY-2,40,2);
@@ -92,19 +105,6 @@ function update() {
 		canvas.editor.ctx.fillText(e.layerX+':'+e.layerY, e.layerX+3, e.layerY-6);
 		canvas.editor.ctx.fillText('▲ '+triangle.x+':'+triangle.y, e.layerX+3, e.layerY+15);
 		canvas.editor.ctx.fillText('temp: '+triangle.temp, e.layerX+3, e.layerY+35);*/
-	if (input.mouse.left) {
-		if (input.mouse.shiftKey) {
-			// eraser with [LM] + [SHIFT]
-			canvas.image.ctx.clearRect(triangle.x,triangle.y,1,1);
-		} else {
-			// draw
-			canvas.editor.ctx.fillStyle = colorBuffer;
-			canvas.image.ctx.fillRect(triangle.x,triangle.y,1,1);
-		}
-	} else if (input.mouse.right) {
-		// use picked color
-		canvas.image.ctx.fillStyle = 'rgba('+px.r+','+px.g+','+px.b+','+px.a+')';
-	}
 	updateCells(); // exactly that
 	if (input.mouse.layerX !== null && input.mouse.layerY !== null) {
 		// invert color to highlight current triangle
@@ -196,7 +196,7 @@ window.onload = function() {
 		canvas.image.ctx.imageSmoothingEnabled = false;
 		canvas.editor.ctx.imageSmoothingEnabled = false;
 		// draw as triangles to editor canvas
-		update();
+		window.requestAnimationFrame(update);
 	};
 
 	canvas.editor.e.addEventListener('mousemove', function(e){
@@ -206,7 +206,7 @@ window.onload = function() {
 		input.mouse.layerY = e.offsetY;
 		input.mouse.shiftKey = e.shiftKey;
 		input.mouse.altKey = e.altKey;
-		update();
+		window.requestAnimationFrame(update);
 	}, false);
 	canvas.editor.e.addEventListener('mousedown', function(e){
 		e.preventDefault();
@@ -222,7 +222,7 @@ window.onload = function() {
 		}
 		key = e;
 		// change may have happened, redraw
-		update();
+		window.requestAnimationFrame(update);
 	}, false);
 	canvas.editor.e.addEventListener('mouseup', function(e){
 		e.preventDefault();
@@ -237,7 +237,7 @@ window.onload = function() {
 			input.mouse.right = false;
 		}
 		// change may have happened, redraw
-		update();
+		window.requestAnimationFrame(update);
 	}, false);
 	canvas.editor.e.addEventListener('contextmenu', function(e) {
 		if (e.button === 2) {
@@ -256,7 +256,7 @@ window.onload = function() {
 		input.mouse.shiftKey = false;
 		input.mouse.altKey = false;
 		// change may have happened, redraw
-		update();
+		window.requestAnimationFrame(update);
 	}, false);
 };
 
@@ -441,19 +441,19 @@ function getTriangle(x,y,size) {
 				if ((tempx+tempy)/2 < 0.5) {
 					iy--;
 				}
-				temp = ((tempx+tempy)/2 < 0.5) ? 'upper' : 'lower';
+			//	temp = ((tempx+tempy)/2 < 0.5) ? 'upper' : 'lower';
 			} else {
 				if ((1-tempx+tempy)/2 < 0.5) {
 					iy--;
 				}
-				temp = ((1-tempx+tempy)/2 < 0.5) ? 'upper' : 'lower';
+			//	temp = ((1-tempx+tempy)/2 < 0.5) ? 'upper' : 'lower';
 			}
 		}
 		// return index
 		return {
 			x: ix,
 			y: iy,
-			temp: temp
+		//	temp: temp
 		};
 	} else if (mode == 'vertical') {
 		// pattern:
@@ -474,19 +474,19 @@ function getTriangle(x,y,size) {
 				if ((tempx+tempy)/2 > 0.5) {
 					ix--;
 				}
-				temp = ((tempx+tempy)/2 > 0.5) ? 'upper' : 'lower';
+			//	temp = ((tempx+tempy)/2 > 0.5) ? 'upper' : 'lower';
 			} else {
 				if ((1-tempx+tempy)/2 > 0.5) {
 					ix--;
 				}
-				temp = ((1-tempx+tempy)/2 > 0.5) ? 'upper' : 'lower';
+			//	temp = ((1-tempx+tempy)/2 > 0.5) ? 'upper' : 'lower';
 			}
 		}
 		// return index
 		return {
 			x: ix,
 			y: iy,
-			temp: temp
+		//	temp: temp
 		};
 	}
 }
